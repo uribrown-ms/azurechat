@@ -80,7 +80,7 @@ jobs:
             rg=$(az webapp list --query "[?name=='${{ secrets.AZURE_APP_SERVICE_NAME }}'].resourceGroup" --output tsv)
             echo Setting SCM_DO_BUILD_DURING_DEPLOYMENT=false on app service ${{ secrets.AZURE_APP_SERVICE_NAME }}
             az webapp config appsettings set -n azurechat-webapp-cssdq5gs2fxuy -g azurechat --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false -o none
-            echo Setting --startup-file=\"node server.js\" on app service ${{ secrets.AZURE_APP_SERVICE_NAME }}
+            echo Setting --startup-file=\"node server.js\" on app service azurechat-webapp-cssdq5gs2fxuy
             az webapp config set --startup-file="node server.js" -n azurechat-webapp-cssdq5gs2fxuy -g azurechat -o none
             sleep 10
 
@@ -88,7 +88,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_APP_SERVICE_NAME }}
+          app-name: azurechat-webapp-cssdq5gs2fxuy
           package: ${{ github.workspace }}/Nextjs-site.zip
 
       - name: 🧹 Cleanup
