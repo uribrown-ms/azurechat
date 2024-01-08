@@ -70,7 +70,7 @@ jobs:
       - name: 🗝️ Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS_URI }}
 
       # Set the build during deployment setting to false. This setting was added in the templates to all azd to work, but breaks deployment via webapps-deploy 
       - name: Azure CLI script
@@ -79,16 +79,16 @@ jobs:
           inlineScript: |
             rg=$(az webapp list --query "[?name=='${{ secrets.AZURE_APP_SERVICE_NAME }}'].resourceGroup" --output tsv)
             echo Setting SCM_DO_BUILD_DURING_DEPLOYMENT=false on app service ${{ secrets.AZURE_APP_SERVICE_NAME }}
-            az webapp config appsettings set -n aoaiurisearch27122023-webapp-zopneakoofgbm -g aoaiurisearch27122023 --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false -o none
-            echo Setting --startup-file=\"node server.js\" on app service aoaiurisearch27122023-webapp-zopneakoofgbm
-            az webapp config set --startup-file="node server.js" -n aoaiurisearch27122023-webapp-zopneakoofgbm -g aoaiurisearch27122023 -o none
+            az webapp config appsettings set -n aoaichat080124-webapp-7jxqco3givmpe -g aoaichat080124 --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false -o none
+            echo Setting --startup-file=\"node server.js\" on app service aoaichat080124-webapp-7jxqco3givmpe
+            az webapp config set --startup-file="node server.js" -n aoaichat080124-webapp-7jxqco3givmpe -g aoaichat080124 -o none
             sleep 10
 
       - name: 🚀 Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: aoaiurisearch27122023-webapp-zopneakoofgbm
+          app-name: aoaichat080124-webapp-7jxqco3givmpe
           package: ${{ github.workspace }}/Nextjs-site.zip
 
       - name: 🧹 Cleanup
